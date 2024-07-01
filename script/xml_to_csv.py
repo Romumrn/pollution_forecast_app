@@ -15,12 +15,20 @@ position_lookup = df_position.set_index('NatlStationCode').to_dict(orient='index
 
 # Pollutant conversion dictionaries
 convertpollutant = {
-    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5': "PM10",
-    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/6001': "PM2.5",
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/1': 'SO2',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/3': 'SA',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/4': 'SPM',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/5': 'PM10',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/6': "BS",
     'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/7': 'O3',
     'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/8': 'NO2',
-    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/1': 'SO2',
-    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/10': "CO"
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/9': 'NOX',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/10': 'CO',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/11':'H2S',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/12':'Pb',
+    'http://dd.eionet.europa.eu/vocabularyconcept/aq/pollutant/13' : 'Hg',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/21': 'C6H5-CH3',
+    'http://dd.eionet.europa.eu/vocabulary/aq/pollutant/6001': 'PM2.5',
 }
 
 convertverified = {
@@ -73,16 +81,17 @@ xpath_parameter = etree.XPath('.//om:parameter/om:NamedValue', namespaces=namesp
 xpath_observed_property = etree.XPath('.//om:observedProperty', namespaces=namespaces)
 xpath_feature_of_interest = etree.XPath('.//om:featureOfInterest', namespaces=namespaces)
 xpath_values = etree.XPath('.//swe:values', namespaces=namespaces)
+xpath_measure_unit = etree.XPath('.//swe:uom', namespaces=namespaces)
 
 c = 0
 chunk_counter = 0
-chunk_size = 100
+chunk_size = 200
 
 def save_chunk(chunk_counter, big_list):
     filename = f"data_chunk_{chunk_counter}.pkl"
     with open(filename, 'wb') as f:
         pickle.dump(big_list, f)
-    print(f"Saved {filename} with {len(big_list)} records.")
+    print(f"------- Saved {filename} with {len(big_list)} records.  -----")
     big_list.clear()
 
 for xml_file in list_xml_files:
@@ -128,6 +137,9 @@ for xml_file in list_xml_files:
             longitude = location_info.get('Longitude', '')
             altitude = location_info.get('Altitude', '')
 
+            # Extract measure unit
+            measure_unit = xpath_measure_unit(obs)[0].attrib.get('code', 'N/A') if xpath_measure_unit(obs) else 'N/A'
+
             # Extract and parse the values
             values_element = xpath_values(obs)
             if values_element and values_element[0].text:
@@ -153,6 +165,7 @@ for xml_file in list_xml_files:
                             "end": end,
                             "Polluant": convertpollutant.get(observed_property_href, 'Unknown'),
                             "value": value,
+                            "measure_unit": measure_unit,
                             "verif": verif,
                             "valid": valid,
                             "name": name,
@@ -168,7 +181,7 @@ for xml_file in list_xml_files:
             chunk_counter += 1
             save_chunk(chunk_counter, big_list)
 
-        print(f" - Processing data since {round((time.time() - start_time) / 60, 5)} mins, processed {round(c/len(list_xml_files), 4) * 100} % - ", end='\r')
+        print(f" - Processing data since {round((time.time() - start_time) / 60, 5)} mins, processed {round(c/len(list_xml_files)* 100 , 4) } % - ", end='\r')
     except Exception as e:
         print(f"PROBLEM WITH {xml_file}: {e}")
 
