@@ -66,7 +66,7 @@ for index1, row1 in all_coords1.iterrows():
         lon2 = row2['Longitude']
         distance = haversine(lat1, lon1, lat2, lon2)
         
-        if distance < closest_distance and distance <= 2.5:
+        if distance < closest_distance and distance <= 10:
             closest_distance = distance
             closest_row = row2
     
