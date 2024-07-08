@@ -67,10 +67,43 @@ NUM_POSTE,NOM_USUEL,LAT,LON,ALTI,AAAAMMJJ,DHUMEC,QDHUMEC,PMERM,QPMERM,PMERMIN,QP
 21056001,BEIRE LE CHATEL,47.413833,5.208333,250,20230101,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,2.2,9.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,0.0,1.0,8.4,1.0,304.0,9.0,16.3,1.0,1324.0,9.0,12.1,1.0,12.4,1.0,7.9,1.0,,,,,0.0,9.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 21056001,BEIRE LE CHATEL,47.413833,5.208333,250,20230102,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1.4,9.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,1.2,1.0,8.2,1.0,1724.0,9.0,12.7,1.0,743.0,9.0,10.1,1.0,10.5,1.0,4.5,1.0,,,,,0.0,9.0,,,,,,,,,,,,,,,,,,,,,,,,,,,,
 ```
-
 ### Subpart 3: Combine All Data
 
-(We need to find a way to combine these DataFrames with the location data, as the names of weather and pollution stations are not similar.)
+#### Concordance Table
+
+To combine climate and pollution data for each station, we need to account for slight differences in their coordinates. We have a script, [get_concordance_coord.py](./script/get_concordance_coord.py), designed to match the closest climate data points to pollutant stations within France Métropolitaine.
+
+This script begins by importing necessary libraries like pandas and numpy for data handling, math functions for distance calculations, matplotlib for plotting, and glob for file searching. It defines a function to calculate the distance between two points given their latitude and longitude, which helps in determining how close climate data points are to pollutant stations.
+
+The script reads pollutant station data from an Excel file [PUT LINK!!] and filters it to retain only coordinates within France Métropolitaine. Similarly, it reads multiple climate data files from a specified directory, filters them, and combines all climate data points into one dataset, removing duplicates.
+
+With the datasets ready, the script searches for the closest climate data point to each pollutant station by iterating through each climate point and calculating its distance to every pollutant station using the haversine function. If the distance is within 10 kilometers and is the shortest found, it saves this pair of coordinates.
+
+Finally, the script stores these closest pairs in a new DataFrame and saves it as a CSV file.
+
+Example of concordance table:
+
+```
+Climate_Name,Climate_Latitude,Climate_Longitude,Pollutant_Station_Code,Pollutant_Station_Latitude,Pollutant_Station_Longitude,Distance_km
+BALAN_AERO,45.833,5.106667,FR20048,45.7533,5.0722,9.256357220710228
+BELLEGARDE,46.0865,5.814167,FR33302,46.072224,5.820833,1.6686096677663498
+CEYZERIAT_SAPC,46.204333,5.287667,FR33305,46.211666,5.226389,4.7854196607018125
+BAGE,46.325167,4.953167,FR32006,46.316174,4.839994,8.748301759182493
+BALAN,45.832833,5.086,FR20048,45.7533,5.0722,8.908151938035143
+BEYNOST,45.837333,4.990667,FR20047,45.823223,4.953958,3.248229496575427
+CIVRIEUX,45.911667,4.891167,FR20068,45.936275,4.796111,7.845105766414095
+```
+
+#### Join the Result
+
+To create a file that contains both climate and pollution information, we use another script, [merge_pollution_climate.py](./script/merge_pollution_climate.py). This script first loads and merges correspondence data and pollution data based on pollutant station codes. It converts the date column in the pollution data to 'YYYYMMDD' format and extracts unique dates.
+
+Next, the script initializes an empty DataFrame for the final data and a list to collect climate data. It loops through climate data files, reads the data, renames columns, filters by geographical boundaries, converts dates to 'YYYYMMDD' format, and filters by dates found in the pollution data.
+
+All filtered climate data is combined into one DataFrame. The script then merges this with the pollution data using date, latitude, and longitude.
+
+Finally, it saves the merged data to a CSV file.
+
 
 ## Part 2: Data Processing for Machine Learning
 
@@ -79,4 +112,3 @@ NUM_POSTE,NOM_USUEL,LAT,LON,ALTI,AAAAMMJJ,DHUMEC,QDHUMEC,PMERM,QPMERM,PMERMIN,QP
 ### Subpart 2: Create the Machine Learning Model
 
 ## Part 3: Dashboard
-test 06
