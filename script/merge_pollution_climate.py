@@ -1,6 +1,5 @@
 import pandas as pd
-import glob
-import os
+import glob 
 
 # Define the bounds for the Rhône-Alpes region (example bounds, you may need to adjust them)
 lat_min, lat_max = 44.0, 46.5
