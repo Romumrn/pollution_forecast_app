@@ -138,10 +138,10 @@ Dans un premier temps, nous avons :
 Pour un tableau de bord environnemental et de pollution, il est plus pertinent d'utilisez une variété de visuels pour représenter les données de manière claire et informative.
  Carte des Températures et des Polluants (Map)
         Position : Centre
-        Données : Latitude, Longitude, Température, PM2.5, PM10, NO2
+        Données : Latitude, Longitude, Température, PM2.5, PM10, NO2, SO2, O3, CO
 
  Graphique Linéaire des Variations
-        Données : Date, Température, PM2.5, NO2
+        Données : Date, Température, PM2.5, PM10, NO2, SO2, O3, CO
         Objectif : Affichage des variations de température et de pollution sur le même graphique pour observer les tendances.
 
 4. Indicateurs Clés de Performance (Carte KPI)
@@ -149,7 +149,7 @@ Pour un tableau de bord environnemental et de pollution, il est plus pertinent d
     Objectif : Affichage des valeurs clés avec des seuils d'alerte.
 
 5. Matrice des Données Détails (Matrix) 
-    Données : Date, Température, Polluants (PM2.5, PM10, NO2)
+    Données : Date, Température, Polluants (PM2.5, PM10, NO2, SO2, O3, CO)
     Objectif : Permettre des filtrages par date et par type de polluant pour une vue plus détaillée.
 
 7. Diagramme en Barres ou à Secteurs (Diagramme en barres ou à secteurs)
@@ -189,10 +189,10 @@ Initially, we:
 For an environmental and pollution dashboard, it is more relevant to use a variety of visualizations to represent the data clearly and informatively.
 
     Map of Temperatures and Pollutants
-    Data: Latitude, Longitude, Temperature, PM2.5, PM10, NO2
+    Data: Latitude, Longitude, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
 
     Line Chart of Variations
-    Data: Date, Temperature, PM2.5, NO2
+    Data: Date, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
     Objective: Display temperature and pollution variations on the same chart to observe trends.
 
     Key Performance Indicators (KPI Card)
@@ -200,7 +200,7 @@ For an environmental and pollution dashboard, it is more relevant to use a varie
     Objective: Display key values with alert thresholds.
 
     Data Details Matrix (Matrix)
-    Data: Date, Temperature, Pollutants (PM2.5, PM10, NO2)
+    Data: Date, Temperature, Pollutants (PM2.5, PM10, NO2, SO2, O3, CO)
     Objective: Allow filtering by date and type of pollutant for a more detailed view.
 
     Bar or Pie Chart (Bar or Pie Chart)
