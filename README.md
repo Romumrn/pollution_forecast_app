@@ -71,6 +71,9 @@ NUM_POSTE,NOM_USUEL,LAT,LON,ALTI,AAAAMMJJ,DHUMEC,QDHUMEC,PMERM,QPMERM,PMERMIN,QP
 
 #### Concordance Table
 
+
+![repartition](./img/Figure_1.png "Repartition stations")
+
 To combine climate and pollution data for each station, we need to account for slight differences in their coordinates. We have a script, [get_concordance_coord.py](./script/get_concordance_coord.py), designed to match the closest climate data points to pollutant stations within France Métropolitaine.
 
 This script begins by importing necessary libraries like pandas and numpy for data handling, math functions for distance calculations, matplotlib for plotting, and glob for file searching. It defines a function to calculate the distance between two points given their latitude and longitude, which helps in determining how close climate data points are to pollutant stations.
