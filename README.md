@@ -115,96 +115,44 @@ Finally, it saves the merged data to a CSV file.
 ### Subpart 2: Create the Machine Learning Model
 
 ## Part 3: Dashboard
-Au sein de notre projet, l'utilisation de tableaux de bord pour visualiser les données environnementales et de pollution est cruciale pour le suivi et la prise de décision en matière de qualité de l'air et de santé publique. Nous avons créer un tableau de bord avec des données environnementales et de pollution sur Power BI :
 
-Dans un premier temps, nous avons :
-1. Collecté des Données pertinentes. 
+In our project, utilizing dashboards to visualize environmental and pollution data is crucial for monitoring and decision-making regarding air quality and public health. We created a dashboard with environmental and pollution data in Power BI:
 
-    Données météorologiques et Données de pollution : source datagouv.com, fichiers CSV provenant d'agences de surveillance de la qualité de l'air.
+### Steps:
 
-2. Importation des Données dans Power BI
+1. **Data Collection**
+    - **Meteorological and Pollution Data**: Sourced from datagouv.com and CSV files from air quality monitoring agencies.
 
-    Ouvrir l'outil Power BI Desktop.
-    Cliquer sur Obtenir des données et choisir la source puis Texte/CSV.
-    Charger les données dans Power BI.
+2. **Data Import into Power BI**
+    - Open Power BI Desktop.
+    - Click on "Get Data" and select the source, then "Text/CSV."
+    - Load the data into Power BI.
 
-3. Transformation et Nettoyage des Données
+3. **Data Transformation and Cleaning**
+    - Open the Power Query Editor.
+    - Clean the data: Verify and modify column types, and remove duplicates.
 
-    Ouvrir l’Éditeur Power Query.
-    Nettoyer les données : Nous procédons à la vérification et la modification des types de colonnes, suppression des doublons.
+4. **Creating Visuals**
+    For an environmental and pollution dashboard, it's essential to use a variety of visuals to represent the data clearly and informatively.
 
-4. Création des Visuels
+    - **Temperature and Pollutant Map (Map)**
+        - Position: Center
+        - Data: Latitude, Longitude, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
 
-Pour un tableau de bord environnemental et de pollution, il est plus pertinent d'utilisez une variété de visuels pour représenter les données de manière claire et informative.
- Carte des Températures et des Polluants (Map)
-        Position : Centre
-        Données : Latitude, Longitude, Température, PM2.5, PM10, NO2, SO2, O3, CO
+    - **Line Chart of Variations**
+        - Data: Date, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
+        - Purpose: Display temperature and pollution variations on the same chart to observe trends.
 
- Graphique Linéaire des Variations
-        Données : Date, Température, PM2.5, PM10, NO2, SO2, O3, CO
-        Objectif : Affichage des variations de température et de pollution sur le même graphique pour observer les tendances.
+    - **Key Performance Indicators (KPI Cards)**
+        - Data: Current Temperature, Current PM2.5, Current NO2, etc.
+        - Purpose: Display key values with alert thresholds.
 
-4. Indicateurs Clés de Performance (Carte KPI)
-    Données : Température actuelle, PM2.5 actuel, NO2 actuel, etc.
-    Objectif : Affichage des valeurs clés avec des seuils d'alerte.
+    - **Detailed Data Matrix**
+        - Data: Date, Temperature, Pollutants (PM2.5, PM10, NO2, SO2, O3, CO)
+        - Purpose: Enable filtering by date and pollutant type for a more detailed view.
 
-5. Matrice des Données Détails (Matrix) 
-    Données : Date, Température, Polluants (PM2.5, PM10, NO2, SO2, O3, CO)
-    Objectif : Permettre des filtrages par date et par type de polluant pour une vue plus détaillée.
+    - **Bar or Pie Charts**
+        - Data: Types of pollutants, Concentrations
+        - Purpose: Visualize the distribution of different pollutant types.
 
-7. Diagramme en Barres ou à Secteurs (Diagramme en barres ou à secteurs)
-    Données : Types de polluants, Concentrations
-    Objectif : Visualisation de la répartition des différents types de polluants.
-
-
-La créatio du tableau de bord de Polluwatch, combinant des données environnementales et de pollution sur Power BI à pour but de surveillance en Temps Réel les conditions météorologiques et les niveaux de pollution en temps réel.
-Cela aidera les autorités et les citoyens à prendre une meilleurs prise de décision basées sur des données précises en identifiant les tendances pour améliorer la santé publique et la qualité de vie.
-Et le côté visuelle : Facilitera la compréhension des données grâce à des visuels clairs.
-
-
-TRADUCTION DE GOOGLE TRADUCTION
-
-
-Within our project, the use of dashboards to visualize environmental and pollution data is crucial for monitoring and decision-making regarding air quality and public health. We created a dashboard with environmental and pollution data on Power BI:
-
-Initially, we:
-
-    1) Collected relevant data :
-
-    Meteorological data and pollution data: source datagouv.com, CSV files from air quality monitoring agencies.
-
-    2) Imported the data into Power BI :
-
-    Open the Power BI Desktop tool.
-    Click on Get Data and choose the source then Text/CSV.
-    Load the data into Power BI.
-
-   3) Transformed and cleaned the data :
-
-    Open the Power Query Editor.
-    Clean the data: We verify and modify column types, and remove duplicates.
-
-   4) Created visualizations :
-
-For an environmental and pollution dashboard, it is more relevant to use a variety of visualizations to represent the data clearly and informatively.
-
-    Map of Temperatures and Pollutants
-    Data: Latitude, Longitude, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
-
-    Line Chart of Variations
-    Data: Date, Temperature, PM2.5, PM10, NO2, SO2, O3, CO
-    Objective: Display temperature and pollution variations on the same chart to observe trends.
-
-    Key Performance Indicators (KPI Card)
-    Data: Current temperature, current PM2.5, current NO2, etc.
-    Objective: Display key values with alert thresholds.
-
-    Data Details Matrix (Matrix)
-    Data: Date, Temperature, Pollutants (PM2.5, PM10, NO2, SO2, O3, CO)
-    Objective: Allow filtering by date and type of pollutant for a more detailed view.
-
-    Bar or Pie Chart (Bar or Pie Chart)
-    Data: Types of pollutants, Concentrations
-    Objective: Visualize the distribution of different types of pollutants.
-
-The creation of the Polluwatch dashboard, combining environmental and pollution data on Power BI, aims to monitor weather conditions and pollution levels in real-time. This will help authorities and citizens make better decisions based on accurate data by identifying trends to improve public health and quality of life. The visual aspect will also facilitate data understanding through clear visuals.
+The creation of the Polluwatch dashboard, combining environmental and pollution data in Power BI, aims to monitor weather conditions and pollution levels in real-time. This will help authorities and citizens make better decisions based on accurate data, identify trends to improve public health and quality of life, and enhance data comprehension through clear visuals.
