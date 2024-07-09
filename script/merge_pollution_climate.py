@@ -1,5 +1,5 @@
 import pandas as pd
-import glob 
+import glob
 
 # Define the bounds for the Rhône-Alpes region (example bounds, you may need to adjust them)
 lat_min, lat_max = 44.0, 46.5
@@ -9,13 +9,30 @@ lon_min, lon_max = 4.0, 7.5
 correspondence_df = pd.read_csv('C:/Users/Administrateur/Documents/correspondence_table.csv')
 
 # Load the pollution data
-pollution_df = pd.read_csv('C:/Users/Administrateur/Documents/pollution_rhone_alpe_data.csv')
+pollution_df_old = pd.read_csv('C:/Users/Administrateur/Documents/pollution_rhone_alpe_data.csv')
+pollution_df_new = pd.read_csv('C:/Users/Administrateur/Documents/rhone_alpes_filtered_data_new.csv')
+
+# Function to standardize datetime formats to ISO 8601
+def standardize_datetime_format(df, column_name):
+    # Parse the datetime column with errors='coerce' to handle any parsing issues
+    df[column_name] = pd.to_datetime(df[column_name], errors='coerce', utc=True)
+    # Convert to ISO 8601 format with timezone information
+    df[column_name] = df[column_name].dt.strftime('%Y-%m-%dT%H:%M:%S%z')
+    return df
+
+# Apply the function to both DataFrames
+pollution_df_old = standardize_datetime_format(pollution_df_old, 'start')
+pollution_df_new = standardize_datetime_format(pollution_df_new, 'start')
+
+# Concatenate old and new pollution data
+pollution_df = pd.concat([pollution_df_old, pollution_df_new])
+print(pollution_df)
 
 # Merge the pollution data with the correspondence data on the id column
 merged_pollution_df = pollution_df.merge(correspondence_df, left_on='id', right_on='Pollutant_Station_Code')
 
-# Convert date-time columns in pollution data to the desired format
-merged_pollution_df['date'] = pd.to_datetime(merged_pollution_df['start']).dt.strftime('%Y%m%d')
+# Convert 'start' column to datetime format and then format it to 'YYYYMMDD'
+merged_pollution_df['date'] = pd.to_datetime(merged_pollution_df['start'], errors='coerce').dt.strftime('%Y%m%d')
 print("Merged Pollution Data:")
 print(merged_pollution_df.columns.values)
 
@@ -43,9 +60,9 @@ for climate_file in climate_files:
     
     # Filter the rows based on latitude and longitude bounds
     subset_climate_df = climate_df[(climate_df['Climate_Latitude'] >= lat_min) & 
-                                    (climate_df['Climate_Latitude'] <= lat_max) & 
-                                    (climate_df['Climate_Longitude'] >= lon_min) & 
-                                    (climate_df['Climate_Longitude'] <= lon_max)]
+                                   (climate_df['Climate_Latitude'] <= lat_max) & 
+                                   (climate_df['Climate_Longitude'] >= lon_min) & 
+                                   (climate_df['Climate_Longitude'] <= lon_max)]
     
     # Convert 'Climate_Date' to string format 'YYYYMMDD'
     subset_climate_df['Climate_Date'] = subset_climate_df['Climate_Date'].astype(str)
@@ -54,13 +71,10 @@ for climate_file in climate_files:
     filtered_climate_df = subset_climate_df[subset_climate_df['Climate_Date'].isin(pollution_dates)]
     
     # Append the filtered data to the list
-    climate_data_list.append(subset_climate_df)
-     
+    climate_data_list.append(filtered_climate_df)
 
 # Combine all climate data into a single DataFrame
 all_climate_data_df = pd.concat(climate_data_list, ignore_index=True)
-print(all_climate_data_df )
-
 print("Combined Climate Data:")
 print(all_climate_data_df.columns.values)
 

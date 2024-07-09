@@ -28,6 +28,7 @@ def filter_france_metropolitaine(df, lat_col, lon_col):
 # Initialize lists to store matching coordinates
 correspondence = []
 
+# Load pollution station data
 df2 = pd.read_excel('C:/Users/Administrateur/Documents/fr-2023-d-lcsqa-ineris-20230717.xls')
 coord2 = df2[['EUStationCode', 'Latitude', 'Longitude']].drop_duplicates()
 # Filter coord2 for France Métropolitaine
@@ -35,7 +36,7 @@ coord2 = filter_france_metropolitaine(coord2, 'Latitude', 'Longitude')
 
 all_coords1 = pd.DataFrame()
 
-# Iterate through each file and gather coordinates
+# Iterate through each climate data file and gather coordinates
 for file_path in glob.glob("C:/Users/Administrateur/Documents/data_climate/data/data_climate*"):
     df1 = pd.read_csv(file_path)
     coords1 = df1[['NOM_USUEL', 'LAT', 'LON']].drop_duplicates()
@@ -45,15 +46,12 @@ for file_path in glob.glob("C:/Users/Administrateur/Documents/data_climate/data/
 # Remove duplicates
 all_coords1 = all_coords1.drop_duplicates()
 
-
-
-
 # Dictionary to store the closest coordinates
 closest_pairs = {}
 
+print("Start to create the correspondence table")
 
-print( "Start to create the correspindec table")
-# Iterate through all coordinates and find the closest points
+# Iterate through all climate coordinates and find the closest pollution stations
 for index1, row1 in all_coords1.iterrows():
     lat1 = row1['LAT']
     lon1 = row1['LON']
@@ -70,8 +68,8 @@ for index1, row1 in all_coords1.iterrows():
             closest_distance = distance
             closest_row = row2
     
-    # Store the closest match if one was found
-    if closest_row is not None:
+    # Store the closest match if one was found and the pollution station is not already assigned
+    if closest_row is not None and closest_row['EUStationCode'] not in closest_pairs.values():
         closest_pairs[index1] = {
             'Climate_Name': row1['NOM_USUEL'],
             'Climate_Latitude': lat1,
@@ -81,7 +79,7 @@ for index1, row1 in all_coords1.iterrows():
             'Pollutant_Station_Longitude': closest_row['Longitude'],
             'Distance_km': closest_distance
         }
-        print(row1['NOM_USUEL'], closest_distance, closest_row['EUStationCode'] )
+        print(row1['NOM_USUEL'], closest_distance, closest_row['EUStationCode'])
 
 # Create a DataFrame from the closest pairs
 correspondence_df = pd.DataFrame(list(closest_pairs.values()))
@@ -92,11 +90,10 @@ correspondence_df.to_csv('correspondence_table.csv', index=False)
 # Print the DataFrame
 print(correspondence_df)
 
-
 # Plot the coordinates
 plt.figure(figsize=(10, 8))
-plt.scatter(all_coords1['LON'], all_coords1['LAT'], c='red', label='Climate Coordinates')
-plt.scatter(coord2['Longitude'], coord2['Latitude'], c='blue', label='Pollutant Stations')
+plt.scatter(all_coords1['LON'], all_coords1['LAT'], c='dimgrey', label='Station climate Coordinates')
+plt.scatter(coord2['Longitude'], coord2['Latitude'], c='darkgreen', label='Station pollutant Coordinates')
 
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
