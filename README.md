@@ -31,33 +31,29 @@ Date de début;Date de fin;Organisme;code zas;Zas;code site;nom site;type d'impl
 #### Job 2017 to 2021 (XML Format)
 ![Old data](./img/job_xml.png "Talend job 2017-2021")
 
-(Add more information about the different components that I used...)
+Subjob 1: 
 
-DT: I am adding just the names of the componnents used to facilitate the writing 
+- tFixedFlowInput_1: Generates a fixed flow from internal variables
 
-Main Job
+- tFlowToIterate_1: Reads data line by line from the input flow and stores the data entries in iterative global variables
 
-tFixedFlowInput_1: Generates a fixed flow from internal variables
+- tFileFetch_1: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
 
-tFlowToIterate_1: Reads data line by line from the input flow and stores the data entries in iterative global variables
+Subjob 2 : 
 
-tFileFetch_1: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
+- tFixedFlowInput_2: Generates a fixed flow from internal variables
 
-Subjob
+- tFlowToIterate_2: Reads data line by line from the input flow and stores the data entries in iterative global variables
 
-tFixedFlowInput_2: Generates a fixed flow from internal variables
+- tFileInputFullRow_1: Reads a file row by row and sends complete rows of data as defined in the schema to the next component via a Row link
 
-tFlowToIterate_2: Reads data line by line from the input flow and stores the data entries in iterative global variables
+- tMap_1: Transforms and routes data from single or multiple sources to single or multiple destinations
 
-tFileInputFullRow_1: Reads a file row by row and sends complete rows of data as defined in the schema to the next component via a Row link
+- tJavaRow_1: With tJavaRow, you can enter the Java code to be applied to each row of the flow
 
-tMap_1: Transforms and routes data from single or multiple sources to single or multiple destinations
+- tFlowToIterate_3: Reads data line by line from the input flow and stores the data entries in iterative global variables
 
-tJavaRow_1: With tJavaRow, you can enter the Java code to be applied to each row of the flow
-
-tFlowToIterate_3: Reads data line by line from the input flow and stores the data entries in iterative global variables
-
-tFileFetch_2: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
+- tFileFetch_2: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
 
 ###
 
@@ -140,8 +136,11 @@ Finally, it saves the merged data to a CSV file.
 
 ### Subpart 1: Data Cleaning
 
+Please check [Notebook](./pollution_forecast_app\notebook\Notebook_IA.ipynb). 
+
 ### Subpart 2: Create the Machine Learning Model
 
+Please check [Notebook](./pollution_forecast_app\notebook\Notebook_IA.ipynb).
 ## Part 3: Dashboard
 
 In our project, utilizing dashboards to visualize environmental and pollution data is crucial for monitoring and decision-making regarding air quality and public health. We created a dashboard with environmental and pollution data in Power BI:
