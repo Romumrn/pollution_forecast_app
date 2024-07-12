@@ -33,6 +33,34 @@ Date de début;Date de fin;Organisme;code zas;Zas;code site;nom site;type d'impl
 
 (Add more information about the different components that I used...)
 
+DT: I am adding just the names of the componnents used to facilitate the writing 
+
+Main Job
+
+tFixedFlowInput_1: Generates a fixed flow from internal variables
+
+tFlowToIterate_1: Reads data line by line from the input flow and stores the data entries in iterative global variables
+
+tFileFetch_1: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
+
+Subjob
+
+tFixedFlowInput_2: Generates a fixed flow from internal variables
+
+tFlowToIterate_2: Reads data line by line from the input flow and stores the data entries in iterative global variables
+
+tFileInputFullRow_1: Reads a file row by row and sends complete rows of data as defined in the schema to the next component via a Row link
+
+tMap_1: Transforms and routes data from single or multiple sources to single or multiple destinations
+
+tJavaRow_1: With tJavaRow, you can enter the Java code to be applied to each row of the flow
+
+tFlowToIterate_3: Reads data line by line from the input flow and stores the data entries in iterative global variables
+
+tFileFetch_2: Retrieves a file through the given protocol (HTTP, HTTPS, FTP, or SMB)
+
+###
+
 The first script called [/xml_to_csv.py](./script/xml_to_csv.py) processes air quality data from XML files, converting them to a structured format and storing the results in chunks using pickle. It starts by loading monitoring station information from an [Excel file](https://www.data.gouv.fr/fr/datasets/r/eeebe970-6e2b-47fc-b801-4a38d53fac0d) into a DataFrame and creates a lookup dictionary for easy access. The script defines conversion dictionaries for specific values and sets up namespace mappings for XML parsing.
 
 It finds all XML files in a specified directory and pre-compiles XPath expressions for efficient parsing. The script iterates through each XML file, extracting and processing data using XPath expressions. Relevant information such as observation times, procedures, parameters, observed properties, feature of interest, and parsed values are collected and appended to a list. Periodically, the script saves this list to a file using pickle and clears the list to handle the next chunk of data.

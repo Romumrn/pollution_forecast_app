@@ -79,24 +79,24 @@ for index1, row1 in all_coords1.iterrows():
             'Pollutant_Station_Longitude': closest_row['Longitude'],
             'Distance_km': closest_distance
         }
-        print(row1['NOM_USUEL'], closest_distance, closest_row['EUStationCode'])
+        print(f"{row1['NOM_USUEL']} ({lat1}, {lon1}) -> {closest_row['EUStationCode']} ({lat2}, {lon2}) | Distance: {closest_distance:.2f} km")
 
 # Create a DataFrame from the closest pairs
 correspondence_df = pd.DataFrame(list(closest_pairs.values()))
 
-# Save the correspondence DataFrame to a CSV file if needed
-correspondence_df.to_csv('correspondence_table.csv', index=False)
+# Save the correspondence DataFrame to a CSV file
+correspondence_df.to_csv('correspondence_table_one_to_one.csv', index=False)
 
 # Print the DataFrame
 print(correspondence_df)
 
 # Plot the coordinates
 plt.figure(figsize=(10, 8))
-plt.scatter(all_coords1['LON'], all_coords1['LAT'], c='dimgrey', label='Station climate Coordinates')
-plt.scatter(coord2['Longitude'], coord2['Latitude'], c='darkgreen', label='Station pollutant Coordinates')
+plt.scatter(all_coords1['LON'], all_coords1['LAT'], c='dimgrey', label='Station Climate Coordinates')
+plt.scatter(coord2['Longitude'], coord2['Latitude'], c='darkgreen', label='Station Pollutant Coordinates')
 
 plt.xlabel('Longitude')
 plt.ylabel('Latitude')
-plt.title('Coordinates from df1 and df2')
+plt.title('Coordinates from Climate and Pollutant Stations')
 plt.legend()
 plt.show()

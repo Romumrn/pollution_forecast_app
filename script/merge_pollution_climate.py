@@ -1,10 +1,6 @@
 import pandas as pd
 import glob
 
-# Define the bounds for the Rhône-Alpes region (example bounds, you may need to adjust them)
-lat_min, lat_max = 44.0, 46.5
-lon_min, lon_max = 4.0, 7.5
-
 # Load the correspondence data
 correspondence_df = pd.read_csv('C:/Users/Administrateur/Documents/correspondence_table.csv')
 
@@ -57,18 +53,12 @@ for climate_file in climate_files:
     
     # Rename columns in climate data for easier merging
     climate_df.rename(columns={'LAT': 'Climate_Latitude', 'LON': 'Climate_Longitude', 'AAAAMMJJ': 'Climate_Date'}, inplace=True)
-    
-    # Filter the rows based on latitude and longitude bounds
-    subset_climate_df = climate_df[(climate_df['Climate_Latitude'] >= lat_min) & 
-                                   (climate_df['Climate_Latitude'] <= lat_max) & 
-                                   (climate_df['Climate_Longitude'] >= lon_min) & 
-                                   (climate_df['Climate_Longitude'] <= lon_max)]
-    
+     
     # Convert 'Climate_Date' to string format 'YYYYMMDD'
-    subset_climate_df['Climate_Date'] = subset_climate_df['Climate_Date'].astype(str)
+    climate_df['Climate_Date'] = climate_df['Climate_Date'].astype(str)
     
     # Filter climate data to keep only rows with dates present in pollution data
-    filtered_climate_df = subset_climate_df[subset_climate_df['Climate_Date'].isin(pollution_dates)]
+    filtered_climate_df = climate_df[climate_df['Climate_Date'].isin(pollution_dates)]
     
     # Append the filtered data to the list
     climate_data_list.append(filtered_climate_df)
